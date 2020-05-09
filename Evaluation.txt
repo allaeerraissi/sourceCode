@@ -1,0 +1,11 @@
+// Import of class for evaluation
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator 
+// Create the assessment instance
+// Fix the label column
+// Fix the prediction column
+// Set the evaluation measure
+val evalution = new MulticlassClassificationEvaluator().setLabelCol("NumberIndex") .setPredictionCol("NumberPredictCol").setMetricName("accuracy") 
+// calculate the value of Accuracy
+val ACCURACY= evalution.evaluate(predictions) 
+// display the value of ACCURACY
+print(s“ Accuracy= ${ACCURACY}") 

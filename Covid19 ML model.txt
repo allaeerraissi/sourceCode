@@ -1,0 +1,19 @@
+import org.apache.spark.ml.{Pipeline, PipelineModel} 
+import org.apache.spark.ml.classification.{DecisionTreeClassifier,DecisionTreeClassificationModel} 
+import org.apache.spark.ml.feature.{StringIndexer, VectorAssembler} 
+// load CovidMorocco data and rename columns
+val MoroccoCases = spark.read.option("header", true).option("inferSchema","true") .option("delimiter";" ").csv("C:/Users/Allae Erraissi/Desktop/CoronoVirusCasesMorocco.txt").toDF("Date", "Number)
+// Create assemble to group the columns  
+val assembler = new VectorAssembler().setInputCols(Array("MorningDate","EveningDate")) .setOutputCol("ResultOfDay") 
+// transform the Species variable into an indexer
+val indexer = new StringIndexer().setInputCol("Number").setOutputCol("NumberIndex") 
+// Create the learning model DT
+val dt = new DecisionTreeClassifier().setLabelCol("NumberIndex"). .setPredictionCol("NumberPredictCol").setFeaturesCol("features") 
+// create a pipeline: assembler, indexer, dt 
+val pipeline = new Pipeline().setStages(Array(assembler, indexer, dt)) 
+// adjust the model 
+val model = pipeline.fit(MoroccoCases) 
+// evaluate the model on learning data 
+val predictions = model.transform(MoroccoCases) 
+// adjust results 
+predictions.show 
